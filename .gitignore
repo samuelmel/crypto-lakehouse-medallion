@@ -1,0 +1,26 @@
+# Environment and secrets
+.env
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Airflow runtime
+airflow/logs/*
+!airflow/logs/.gitkeep
+
+# dbt artifacts
+dbt/crypto_lakehouse/target/
+dbt/crypto_lakehouse/dbt_packages/
+dbt/crypto_lakehouse/logs/
+
+# Local DuckDB and data artifacts
+*.duckdb
+*.duckdb.wal
+*.parquet
+
+# IDE
+.vscode/*.code-workspace

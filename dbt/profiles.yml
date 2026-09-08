@@ -1,0 +1,7 @@
+crypto_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: /opt/airflow/dbt/crypto_lakehouse/crypto_lakehouse.duckdb
+      threads: 4
