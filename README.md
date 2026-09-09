@@ -30,6 +30,16 @@ Data Lakehouse de criptomoedas com arquitetura Medalhão.
 
 Consulte o [roadmap do projeto](docs/ROADMAP.md) para acompanhar as fases, entregáveis e critérios de validação.
 
+## Diagramas do projeto
+
+### Arquitetura e fluxo de ingestão
+
+![Arquitetura e fluxo de ingestão do Crypto Lakehouse](img/CoinGecko%20API%20Ingestion-2026-09-09-001131.png)
+
+### Estrutura analítica do banco
+
+![Estrutura analítica do banco de dados](img/Untitled.png)
+
 ## Próximo passo
 
 Copie `.env.example` para `.env` e valide a infraestrutura com:
@@ -37,6 +47,18 @@ Copie `.env.example` para `.env` e valide a infraestrutura com:
 ```bash
 docker compose up -d --build
 ```
+
+## Ambiente Python local
+
+O ambiente local usa `uv` para instalar as bibliotecas de desenvolvimento e testes:
+
+```bash
+uv sync
+uv run python -m unittest tests.test_coingecko_bronze tests.test_databricks_upload -v
+uv run dbt --version
+```
+
+O Airflow e as DAGs são executados dentro dos containers Docker. O `pyproject.toml` não instala Airflow localmente; isso evita duplicar a infraestrutura e mantém o runtime igual ao ambiente orquestrado.
 
 Interfaces locais:
 

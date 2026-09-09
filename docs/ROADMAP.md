@@ -224,6 +224,20 @@ Enviar a camada Gold para a nuvem e convertê-la em Delta Tables.
 - Schema local e cloud são comparados.
 - O processo pode ser repetido sem duplicação.
 
+### Preparação local validada
+
+- Uploader MinIO -> Databricks criado em `src/databricks/upload_gold.py`.
+- Upload filtra somente Parquets e substitui o mesmo caminho em reexecuções.
+- Testes locais do uploader aprovados com storage e HTTP simulados.
+- DAG manual `crypto_databricks_upload` carregada no Airflow sem erros de importação.
+- Notebook `databricks/notebooks/load_gold_to_delta.py` criado para Parquet -> Delta.
+- Configuração documentada em `databricks/resources/README.md`.
+
+### Bloqueio para validação cloud
+
+- Ainda falta um workspace Databricks real, Unity Catalog, Volume e token configurados.
+- A execução da DAG cloud e do notebook deve ocorrer somente após configurar `DATABRICKS_HOST`, `DATABRICKS_TOKEN` e `DATABRICKS_VOLUME_PATH` por secret backend ou ambiente seguro.
+
 ## Fase 8 - Governança e otimização cloud
 
 ### Objetivo
