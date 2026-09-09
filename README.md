@@ -21,9 +21,14 @@ Data Lakehouse de criptomoedas com arquitetura Medalhão.
 ├── docker/airflow/          # Imagem do Airflow com dependências
 ├── src/ingestion/           # Clientes de API e ingestão Bronze
 ├── tests/                   # Testes automatizados
+├── docs/ROADMAP.md          # Fases, entregáveis e critérios de conclusão
 ├── .env.example             # Variáveis locais (copiar para .env)
 └── docker-compose.yml       # Infraestrutura local
 ```
+
+## Roadmap
+
+Consulte o [roadmap do projeto](docs/ROADMAP.md) para acompanhar as fases, entregáveis e critérios de validação.
 
 ## Próximo passo
 
