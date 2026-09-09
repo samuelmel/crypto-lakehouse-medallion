@@ -7,7 +7,7 @@ Roadmap do projeto de portfólio de Data Lakehouse de criptomoedas. Cada fase s�
 - [x] Fase 1 - Infraestrutura local Docker
 - [x] Fase 2 - Ingestão Bronze com Python e CoinGecko
 - [x] Fase 3 - Configuração dbt + DuckDB + MinIO
-- [ ] Fase 4 - Transformação Silver
+- [x] Fase 4 - Transformação Silver
 - [ ] Fase 5 - Modelagem Gold e Star Schema
 - [ ] Fase 6 - Orquestração ponta a ponta
 - [ ] Fase 7 - Integração Databricks
@@ -125,6 +125,15 @@ Transformar JSONs brutos em dados limpos, tipados e persistidos em Parquet.
 - As colunas de preço e data têm tipos corretos.
 - Os testes `not_null` e `unique` passam.
 - Reprocessar a mesma Bronze não duplica registros Silver.
+
+### Resultado validado
+
+- Modelo `silver_market_prices` criado com flattening via `json_each`.
+- Preços, market cap, volume e variação tipados com `try_cast`.
+- Parquet gravado em `s3://silver/market/silver_market_prices.parquet`.
+- Cinco testes dbt aprovados: `unique` e `not_null`.
+- `dbt show` confirmou registros de Bitcoin e Ethereum.
+- Segunda execução regravou o mesmo destino sem criar arquivo adicional.
 
 ## Fase 5 - Camada Gold e Star Schema
 
