@@ -5,3 +5,12 @@ crypto_lakehouse:
       type: duckdb
       path: /opt/airflow/dbt/crypto_lakehouse/crypto_lakehouse.duckdb
       threads: 4
+      extensions:
+        - httpfs
+      settings:
+        s3_endpoint: "{{ env_var('MINIO_ENDPOINT', 'minio:9000') | replace('http://', '') | replace('https://', '') }}"
+        s3_access_key_id: "{{ env_var('MINIO_ROOT_USER') }}"
+        s3_secret_access_key: "{{ env_var('MINIO_ROOT_PASSWORD') }}"
+        s3_region: "{{ env_var('MINIO_REGION', 'us-east-1') }}"
+        s3_url_style: path
+        s3_use_ssl: false

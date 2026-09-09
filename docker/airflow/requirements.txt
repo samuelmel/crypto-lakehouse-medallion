@@ -5,3 +5,5 @@ pandas
 pyarrow
 dbt-core
 dbt-duckdb
+typing-extensions>=4.15.0,<5
+protobuf>=5.26.0,<7

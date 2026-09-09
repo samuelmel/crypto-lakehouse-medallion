@@ -5,8 +5,8 @@ Roadmap do projeto de portfólio de Data Lakehouse de criptomoedas. Cada fase s�
 ## Status atual
 
 - [x] Fase 1 - Infraestrutura local Docker
-- [ ] Fase 2 - Ingestão Bronze com Python e CoinGecko
-- [ ] Fase 3 - Configuração dbt + DuckDB + MinIO
+- [x] Fase 2 - Ingestão Bronze com Python e CoinGecko
+- [x] Fase 3 - Configuração dbt + DuckDB + MinIO
 - [ ] Fase 4 - Transformação Silver
 - [ ] Fase 5 - Modelagem Gold e Star Schema
 - [ ] Fase 6 - Orquestração ponta a ponta
@@ -65,6 +65,13 @@ Consumir a CoinGecko e preservar o payload bruto no MinIO sem duplicação.
 - A DAG pode ser executada pela interface do Airflow.
 - O teste automatizado comprova a idempotência.
 
+### Resultado validado
+
+- DAG `crypto_bronze_ingestion` carregada sem erros.
+- Execução manual concluída com estado `success`.
+- Objeto JSON confirmado no bucket `bronze`.
+- Testes unitários de idempotência aprovados.
+
 ## Fase 3 - dbt, DuckDB e acesso ao MinIO
 
 ### Objetivo
@@ -86,6 +93,14 @@ Preparar o motor de transformação para ler e escrever objetos no armazenamento
 - DuckDB lê um objeto de teste do MinIO.
 - Um modelo dbt executa do início ao fim.
 - A configuração funciona após reiniciar os containers.
+
+### Resultado validado
+
+- dbt 1.12.4 e `dbt-duckdb` 1.11.0 carregados no Airflow.
+- `dbt debug` concluído com `All checks passed!`.
+- Extensão DuckDB `httpfs` conectada ao MinIO via endpoint S3 compatível.
+- Modelo `stg_bronze_market` executado com `PASS=1`.
+- JSON Bronze lido e materializado como tabela DuckDB.
 
 ## Fase 4 - Camada Silver
 
