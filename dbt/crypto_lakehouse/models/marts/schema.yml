@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: dim_cryptos
+    description: "Dimensao dos ativos presentes na camada Silver."
+    columns:
+      - name: crypto_id
+        tests:
+          - not_null
+          - unique
+      - name: symbol
+        tests:
+          - not_null
+      - name: name
+        tests:
+          - not_null
+
+  - name: dim_calendario
+    description: "Dimensao calendario entre a menor e a maior data observada."
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+          - unique
+      - name: calendar_date
+        tests:
+          - not_null
+          - unique
+
+  - name: fact_precos_mercado
+    description: "Fato de observacoes de preco, volume e capitalizacao."
+    columns:
+      - name: market_record_id
+        tests:
+          - not_null
+          - unique
+      - name: crypto_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_cryptos')
+                field: crypto_id
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_calendario')
+                field: date_key
+      - name: price_usd
+        tests:
+          - not_null
+
+  - name: agg_volatilidade_diaria
+    description: "Agregacao diaria de preco e volatilidade por ativo."
+    columns:
+      - name: volatility_id
+        tests:
+          - not_null
+          - unique
+      - name: crypto_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_cryptos')
+                field: crypto_id
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_calendario')
+                field: date_key
+      - name: volatility
+        tests:
+          - not_null

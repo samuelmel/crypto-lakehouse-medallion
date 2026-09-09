@@ -8,7 +8,7 @@ Roadmap do projeto de portfólio de Data Lakehouse de criptomoedas. Cada fase s�
 - [x] Fase 2 - Ingestão Bronze com Python e CoinGecko
 - [x] Fase 3 - Configuração dbt + DuckDB + MinIO
 - [x] Fase 4 - Transformação Silver
-- [ ] Fase 5 - Modelagem Gold e Star Schema
+- [x] Fase 5 - Modelagem Gold e Star Schema
 - [ ] Fase 6 - Orquestração ponta a ponta
 - [ ] Fase 7 - Integração Databricks
 - [ ] Fase 8 - Governança e otimização cloud
@@ -159,6 +159,15 @@ Criar o modelo dimensional pronto para análise.
 - Relacionamentos entre fatos e dimensões são válidos.
 - As métricas de volatilidade são reproduzíveis.
 - O modelo responde às perguntas analíticas definidas.
+
+### Resultado validado
+
+- `dim_cryptos`, `dim_calendario`, `fact_precos_mercado` e `agg_volatilidade_diaria` criados.
+- Quatro Parquets Gold confirmados no MinIO.
+- `dbt build --select marts+` concluído com `PASS=26`, `WARN=0` e `ERROR=0`.
+- Testes `unique`, `not_null` e `relationships` aprovados.
+- Chaves de data e ativo conectam fatos às dimensões.
+- `dim_cryptos` usa o `crypto_id` como nome técnico até uma futura ingestão de metadados oficiais.
 
 ## Fase 6 - Orquestração ponta a ponta
 
