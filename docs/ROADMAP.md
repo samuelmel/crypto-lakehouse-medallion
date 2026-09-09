@@ -9,7 +9,7 @@ Roadmap do projeto de portfólio de Data Lakehouse de criptomoedas. Cada fase s�
 - [x] Fase 3 - Configuração dbt + DuckDB + MinIO
 - [x] Fase 4 - Transformação Silver
 - [x] Fase 5 - Modelagem Gold e Star Schema
-- [ ] Fase 6 - Orquestração ponta a ponta
+- [x] Fase 6 - Orquestração ponta a ponta
 - [ ] Fase 7 - Integração Databricks
 - [ ] Fase 8 - Governança e otimização cloud
 - [ ] Fase 9 - Power BI
@@ -191,6 +191,15 @@ Automatizar Bronze, Silver e Gold em uma DAG observável e reexecutável.
 - Uma falha em uma etapa não corrompe as camadas anteriores.
 - A reexecução é idempotente.
 - Os logs permitem localizar a causa de uma falha.
+
+### Resultado validado
+
+- DAG `crypto_lakehouse_pipeline` criada com dependências explícitas.
+- Fluxo executado com sucesso: Bronze -> Silver -> testes Silver -> Gold.
+- Todas as quatro tarefas terminaram em `success`.
+- `DagRun` manual concluído em aproximadamente 37 segundos.
+- Retries e timeouts definidos por tarefa.
+- `max_active_runs=1` evita execuções concorrentes do pipeline.
 
 ## Fase 7 - Integração com Databricks
 
