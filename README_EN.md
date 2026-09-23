@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🚀 Crypto Lakehouse
+# Crypto Lakehouse
 
 ### *Cryptocurrency Data Lakehouse with Medallion Architecture (Bronze, Silver, Gold)*
 
@@ -11,7 +11,6 @@
 [![DuckDB](https://img.shields.io/badge/DuckDB-1.1%2B-orange.svg)](https://duckdb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](https://www.docker.com/)
 [![Apache Airflow](https://img.shields.io/badge/Airflow-2.10%2B-017CEE.svg)](https://airflow.apache.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **A cryptocurrency Data Lakehouse built to collect, process, transform, and make market data available in an automated, testable, and structured way for advanced analytics.**
 
@@ -19,19 +18,19 @@
 
 ---
 
-## 🌟 Key Features
+## 🌟 Main Features
 
 ### 1. 🥉 Medallion Architecture — Bronze → Silver → Gold
 
 The project implements a layered data architecture, separating ingestion, transformation, and analytical consumption.
 
-* **Bronze:** idempotent ingestion of raw data from the CoinGecko API into **MinIO**, using S3-compatible storage and deterministic keying.
+* **Bronze:** ingestion of raw data from the CoinGecko API into **MinIO**, using S3-compatible storage.
 * **Silver:** flattening, strict typing, and transformation of data into **Parquet** using **dbt + DuckDB**.
-* **Gold:** dimensional modeling using a **Star Schema**, with fact tables, dimensions, and daily volatility aggregations.
+* **Gold:** dimensional modeling, with fact tables, dimensions, and daily volatility aggregations.
 
-This separation keeps raw data preserved while allowing the following layers to be transformed and rebuilt in a controlled manner.
+This separation allows raw data to be preserved while subsequent layers can be transformed and rebuilt in a controlled manner.
 
-### 2. ⚙️ Apache Airflow Orchestration
+### 2. ⚙️ Orchestration with Apache Airflow
 
 The pipeline is automated using **Apache Airflow**.
 
@@ -42,112 +41,54 @@ The pipeline is automated using **Apache Airflow**.
 * Timeouts.
 * Detailed logs.
 * Concurrent execution control.
-* Monitoring and manual pipeline triggering through the Airflow web interface.
+* Monitoring and manual triggering through the Airflow web interface.
 
 ### 3. 🧠 Transformation with dbt + DuckDB
 
-Data transformation is performed using **dbt** and **DuckDB**, allowing SQL models to be executed locally and reproducibly.
+Data transformation uses **dbt** and **DuckDB**, allowing SQL models to be executed locally and reproducibly.
 
 * SQL models organized by layer.
 * Tests for `not_null`, `unique`, and `relationships`.
-* Direct reading of data stored in S3 through DuckDB's `httpfs` extension.
-* Silver and Gold layers materialized as **Parquet**.
+* Direct access to data stored in S3 through DuckDB's `httpfs` extension.
+* Materialization of Silver and Gold layers in **Parquet**.
 * Ability to execute and test models locally before running the complete orchestration.
 
 ### 4. ☁️ Cloud Integration with Databricks
 
-The Gold layer can be integrated with a cloud environment using **Databricks**.
+The Gold layer can be integrated into a cloud environment using **Databricks**.
 
 * Automatic upload of Gold Parquet files.
 * Integration with **Unity Catalog / Volumes**.
 * **PySpark** notebook for converting data into Delta Tables.
-* Structure prepared for exploring governance and security concepts in cloud environments.
+* Structure designed to explore governance and security concepts in cloud environments.
 
 ### 5. 🧪 Automated Testing
 
-The project contains tests at different levels to validate both the application and data quality.
+The project includes tests at different levels to validate both the application and data quality.
 
 * Python unit tests using `unittest`.
 * Mocks for S3 and HTTP services.
 * Data quality tests using dbt.
-* Validation of uniqueness, non-nullability, and relationships.
-* Idempotency tests.
+* Validation of uniqueness, non-null values, and relationships.
 * Controlled reprocessing validation.
-
----
-
-## 📌 Why This Project?
-
-Crypto Lakehouse was developed to demonstrate, within a single project, a Data Engineering workflow close to a real-world scenario.
-
-* **Modern Stack:** Docker, Apache Airflow, dbt, DuckDB, MinIO, and Databricks.
-* **Reproducibility:** environment defined through Docker Compose and environment variables.
-* **Data Quality:** automated validations during transformations.
-* **Idempotency:** ability to reprocess data without generating unintended duplicates.
-* **Separation of Responsibilities:** ingestion, transformation, storage, and consumption are organized into layers.
-* **Scalability:** the Gold layer is structured for later consumption by BI, Machine Learning, or Data Science tools.
-* **Local + Cloud Integration:** the project allows working with a local Data Lake and subsequently making the data available in Databricks.
-* **Best Practices:** error handling, automated testing, responsibility-based organization, and reproducible pipelines.
 
 ---
 
 ## 🏗️ Architecture
 
-Crypto Lakehouse implements a complete Data Engineering workflow, from ingesting data from CoinGecko to making information available in the Gold layer and integrating with Databricks.
+Crypto Lakehouse implements a complete Data Engineering workflow, from ingesting CoinGecko data to making information available in the Gold layer and integrating it with Databricks.
 
 <div align="center">
 
-<img src="img/CoinGecko%20API%20Ingestion-2026-09-09-001131.png" alt="CoinGecko API Ingestion" width="900">
+<img src="img/coingecko-ingestion.png" alt="CoinGecko API Ingestion" width="900">
 
-<p><em>CoinGecko market data ingestion flow into the Bronze layer.</em></p>
+<p><em>Market data ingestion flow from CoinGecko into the Bronze layer.</em></p>
 
 </div>
 
-```text
-                         ┌──────────────────────┐
-                         │      CoinGecko       │
-                         │       REST API       │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │       BRONZE         │
-                         │       MinIO/S3       │
-                         │                      │
-                         │   Raw JSON Data      │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │        SILVER        │
-                         │     dbt + DuckDB     │
-                         │                      │
-                         │  Flatten + Typing    │
-                         │       Parquet        │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │         GOLD         │
-                         │     Star Schema      │
-                         │                      │
-                         │ Facts + Dimensions   │
-                         │ Daily Aggregations   │
-                         └──────────┬───────────┘
-                                    │
-                     ┌──────────────┴──────────────┐
-                     │                             │
-                     ▼                             ▼
-             ┌───────────────┐             ┌───────────────┐
-             │   Databricks   │             │   Analytics   │
-             │ Unity Catalog  │             │  BI / ML / DS │
-             │ Delta Tables   │             └───────────────┘
-             └───────────────┘
-```
-
 <div align="center">
 
-<img src="img/Untitled.png" alt="Crypto Lakehouse Architecture" width="900">
+<img src="img/crypto-lakehouse-architecture.png" alt="Crypto Lakehouse Architecture" width="900">
 
 <p><em>Overall Data Lakehouse architecture and data processing flow.</em></p>
 
@@ -165,7 +106,7 @@ The main flow can be summarized as:
 
 ### 1. Installing Dependencies
 
-It is recommended to use [`uv`](https://github.com/astral-sh/uv) for its fast dependency resolution and installation, but the project can also be run using `pip`.
+It is recommended to use [`uv`](https://github.com/astral-sh/uv) due to its fast dependency resolution and installation, but the project can also be run using `pip`.
 
 ```bash
 # Clone the repository
@@ -203,13 +144,13 @@ pip install -r requirements.txt
 
 ### 2. Configure Environment Variables
 
-Copy the example file:
+Copy the example environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Configure the variables required for the local environment and the services used by the project.
+Configure the variables required for the local environment and for the services used by the project.
 
 ### 3. Start the Infrastructure
 
@@ -221,12 +162,12 @@ docker compose up -d --build
 
 The local infrastructure includes the services required to run the pipeline, including MinIO, PostgreSQL, and Airflow.
 
-After startup:
+After initialization:
 
 * **Airflow:** `http://localhost:8080`
 * **MinIO Console:** `http://localhost:9001`
 
-Default local environment credentials:
+Default credentials for the local environment:
 
 ```text
 Airflow
@@ -300,7 +241,7 @@ http://localhost:8080
 
 ## 💻 Transformation Example — dbt + DuckDB
 
-The `silver_market_prices.sql` model demonstrates the transformation of raw CoinGecko data into a typed tabular structure stored as Parquet.
+The `silver_market_prices.sql` model demonstrates the transformation of raw CoinGecko data into a typed tabular structure stored in Parquet.
 
 ```sql
 {{ config(
@@ -450,36 +391,9 @@ ORDER BY v.reference_date DESC, v.volatility DESC;
 
 ---
 
-## 🛠️ Technologies Used
-
-| Category               | Technology               | Usage                                                        |
-| ---------------------- | ------------------------ | ------------------------------------------------------------ |
-| **Orchestration**      | Apache Airflow 2.10+     | DAGs, retries, trigger rules, pools, and concurrency control |
-| **Storage**            | MinIO                    | S3-compatible Object Storage                                 |
-| **Transformation**     | dbt-core + dbt-duckdb    | SQL modeling and data quality testing                        |
-| **Query Engine**       | DuckDB 1.1+              | Analytical processing and Parquet/S3 querying                |
-| **Cloud Lakehouse**    | Databricks Unity Catalog | Volumes, Delta Tables, and PySpark notebooks                 |
-| **Ingestion**          | Python + requests        | CoinGecko API consumption                                    |
-| **Containers**         | Docker Compose           | Local infrastructure execution                               |
-| **Package Management** | uv / pip                 | Python environments and dependencies                         |
-| **Analysis**           | Pandas / PyArrow         | Additional exploration and notebooks                         |
-
----
-
 ## 🧪 Automated Testing
 
-### Unit Tests
-
-Python tests validate components related to CoinGecko ingestion and Databricks uploads.
-
-```bash
-uv run python -m unittest \
-  tests.test_coingecko_bronze \
-  tests.test_databricks_upload \
-  -v
-```
-
-### dbt Data Quality Tests
+### Data Quality Tests with dbt
 
 Validation of model integrity, uniqueness, and relationships:
 
@@ -487,7 +401,7 @@ Validation of model integrity, uniqueness, and relationships:
 uv run dbt test --profiles-dir dbt/
 ```
 
-### Full Build
+### Complete Build
 
 Runs the models and tests sequentially:
 
@@ -497,89 +411,12 @@ uv run dbt build --profiles-dir dbt/
 
 ---
 
-## 📂 Project Structure
-
-```text
-crypto-lakehouse/
-│
-├── img/
-│   ├── CoinGecko API Ingestion-2026-09-09-001131.png
-│   └── Untitled.png
-│
-├── dags/
-│   ├── bronze/
-│   ├── silver_gold/
-│   └── databricks/
-│
-├── dbt/
-│   ├── models/
-│   │   ├── staging/
-│   │   ├── silver/
-│   │   └── marts/
-│   ├── tests/
-│   └── profiles.yml
-│
-├── src/
-│   ├── ingestion/
-│   ├── databricks/
-│   └── ...
-│
-├── tests/
-│
-├── docker-compose.yml
-├── requirements.txt
-├── pyproject.toml
-├── .env.example
-└── README.md
-```
-
----
-
-## 🎯 Concepts Demonstrated
-
-This project explores concepts relevant to modern Data Engineering:
-
-* Medallion Architecture.
-* Data Lakes and Lakehouses.
-* ETL/ELT.
-* S3-compatible Object Storage.
-* Analytical processing with DuckDB.
-* Transformations and testing with dbt.
-* Orchestration with Apache Airflow.
-* Parquet format.
-* Dimensional modeling and Star Schema.
-* Idempotency and reprocessing.
-* Data Quality.
-* Automated testing.
-* Integration between local infrastructure and cloud environments.
-* Databricks, Unity Catalog, and Delta Tables.
-* Containerization with Docker.
-
----
-
 ## 👨‍💻 Author
 
 **Samuel Santos**
 
-This project was developed as a **technical portfolio and study project**, focused on Data Engineering, modern data architectures, automation, and software engineering best practices.
-
-Crypto Lakehouse explores concepts such as:
-
-* Medallion Architecture and Lakehouses.
-* ELT with dbt and open-source tools.
-* Workflow orchestration with Apache Airflow.
-* Integration between local Data Lakes and cloud platforms.
-* Databricks and PySpark processing.
-* Testability and data quality in Data Engineering pipelines.
+This project was developed as a **technical portfolio and study project**, focused on Data Engineering, modern data architectures, automation, and best practices.
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License**.
-
-See the [LICENSE](LICENSE) file for more information.
-
----
-
-[🇧🇷 Português](README.md) | 🇺🇸 English
+🇧🇷 [Português](README.md) | 🇺🇸 English
