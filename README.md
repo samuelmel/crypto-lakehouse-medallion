@@ -97,7 +97,7 @@ O Crypto Lakehouse implementa um fluxo completo de Engenharia de Dados, desde a 
 
 <div align="center">
 
-<img src="img/CoinGecko%20API%20Ingestion-2026-09-09-001131.png" alt="CoinGecko API Ingestion" width="900">
+<img src="img/crypto-lakehouse-architecture.png" alt="CoinGecko API Ingestion" width="900">
 
 <p><em>Fluxo de ingestão dos dados de mercado da CoinGecko para a camada Bronze.</em></p>
 
