@@ -11,7 +11,6 @@
 [![DuckDB](https://img.shields.io/badge/DuckDB-1.1%2B-orange.svg)](https://duckdb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](https://www.docker.com/)
 [![Apache Airflow](https://img.shields.io/badge/Airflow-2.10%2B-017CEE.svg)](https://airflow.apache.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Um Data Lakehouse de criptomoedas construído para coletar, processar, transformar e disponibilizar dados de mercado de forma automatizada, testável e estruturada para análises avançadas.**
 
@@ -97,7 +96,7 @@ O Crypto Lakehouse implementa um fluxo completo de Engenharia de Dados, desde a 
 
 <div align="center">
 
-<img src="img/crypto-lakehouse-architecture.png" alt="CoinGecko API Ingestion" width="900">
+<img src="img/coingecko-ingestion.png" alt="CoinGecko API Ingestion" width="900">
 
 <p><em>Fluxo de ingestão dos dados de mercado da CoinGecko para a camada Bronze.</em></p>
 
@@ -106,7 +105,7 @@ O Crypto Lakehouse implementa um fluxo completo de Engenharia de Dados, desde a 
 
 <div align="center">
 
-<img src="img/Untitled.png" alt="Crypto Lakehouse Architecture" width="900">
+<img src="img/crypto-lakehouse-architecture.png" alt="Crypto Lakehouse Architecture" width="900">
 
 <p><em>Arquitetura geral do Data Lakehouse e fluxo de processamento dos dados.</em></p>
 
