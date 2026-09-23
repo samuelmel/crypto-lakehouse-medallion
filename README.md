@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🚀 Crypto Lakehouse
+#  Crypto Lakehouse
 
 ### *Data Lakehouse de Criptomoedas com Arquitetura Medalhão (Bronze, Silver, Gold)*
 
@@ -24,9 +24,9 @@
 
 O projeto implementa uma arquitetura de dados em camadas, separando ingestão, transformação e consumo analítico.
 
-* **Bronze:** ingestão idempotente dos dados brutos da API CoinGecko no **MinIO**, utilizando armazenamento compatível com S3 e chaveamento determinístico.
-* **Silver:** desaninhamento (*flattening*), tipagem estrita e transformação dos dados para **Parquet** utilizando **dbt + DuckDB**.
-* **Gold:** modelagem dimensional em **Star Schema**, com tabelas fato, dimensões e agregações de volatilidade diária.
+* **Bronze:** ingestão dos dados brutos da API CoinGecko no **MinIO**, utilizando armazenamento compatível com S3.
+* **Silver:** desaninhamento, tipagem estrita e transformação dos dados para **Parquet** utilizando **dbt + DuckDB**.
+* **Gold:** modelagem dimensional, com tabelas fato, dimensões e agregações de volatilidade diária.
 
 Essa separação permite manter os dados brutos preservados enquanto as camadas seguintes são transformadas e reconstruídas de forma controlada.
 
@@ -69,24 +69,8 @@ O projeto possui testes em diferentes níveis para validar tanto a aplicação q
 * Testes unitários em Python utilizando `unittest`.
 * Mocks para serviços S3 e HTTP.
 * Testes de qualidade utilizando dbt.
-* Validação de unicidade, não-nulidade e relacionamentos.
-* Testes de idempotência.
+* Validação de unicidade, não-nulo e relacionamentos.
 * Validação de reprocessamento controlado.
-
----
-
-## 📌 Por que usar este projeto?
-
-O Crypto Lakehouse foi desenvolvido para demonstrar, em um único projeto, um fluxo de Engenharia de Dados próximo de um cenário real.
-
-* **Stack Moderna:** Docker, Apache Airflow, dbt, DuckDB, MinIO e Databricks.
-* **Reprodutibilidade:** ambiente definido através de Docker Compose e variáveis de ambiente.
-* **Qualidade de Dados:** validações automatizadas durante as transformações.
-* **Idempotência:** possibilidade de reprocessar dados sem gerar duplicações indevidas.
-* **Separação de Responsabilidades:** ingestão, transformação, armazenamento e consumo são organizados em camadas.
-* **Escalabilidade:** a camada Gold é estruturada para consumo posterior por ferramentas de BI, Machine Learning ou Data Science.
-* **Integração Local + Cloud:** o projeto permite trabalhar com um Data Lake local e posteriormente disponibilizar os dados no Databricks.
-* **Boas Práticas:** tratamento de erros, testes automatizados, organização por responsabilidades e pipelines reproduzíveis.
 
 ---
 
@@ -408,21 +392,6 @@ ORDER BY v.reference_date DESC, v.volatility DESC;
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
-
-| Categoria                    | Tecnologia               | Utilização                                                     |
-| ---------------------------- | ------------------------ | -------------------------------------------------------------- |
-| **Orquestração**             | Apache Airflow 2.10+     | DAGs, retries, trigger rules, pools e controle de concorrência |
-| **Storage**                  | MinIO                    | Object Storage compatível com S3                               |
-| **Transformação**            | dbt-core + dbt-duckdb    | Modelagem SQL e testes de qualidade                            |
-| **Query Engine**             | DuckDB 1.1+              | Processamento analítico e leitura de Parquet/S3                |
-| **Lakehouse Cloud**          | Databricks Unity Catalog | Volumes, Delta Tables e notebooks PySpark                      |
-| **Ingestão**                 | Python + requests        | Consumo da API CoinGecko                                       |
-| **Containers**               | Docker Compose           | Execução da infraestrutura local                               |
-| **Gerenciamento de Pacotes** | uv / pip                 | Ambientes e dependências Python                                |
-| **Análise**                  | Pandas / PyArrow         | Exploração adicional e notebooks                               |
-
----
 
 ## 🧪 Testes Automatizados
 
