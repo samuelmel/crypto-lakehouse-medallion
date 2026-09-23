@@ -6,7 +6,11 @@
 
 select distinct
     crypto_id,
-    upper(crypto_id) as symbol,
+    CASE
+        WHEN crypto_id = 'bitcoin' THEN 'BTC'
+        WHEN crypto_id = 'ethereum' THEN 'ETH'
+        ELSE crypto_id
+    END as symbol,
     crypto_id as name,
     'coingecko' as source,
     current_timestamp as created_at

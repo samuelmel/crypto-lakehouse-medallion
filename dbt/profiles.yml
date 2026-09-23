@@ -3,7 +3,7 @@ crypto_lakehouse:
   outputs:
     dev:
       type: duckdb
-      path: /opt/airflow/dbt/crypto_lakehouse/crypto_lakehouse.duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH', '/opt/airflow/dbt/crypto_lakehouse/crypto_lakehouse.duckdb') }}"
       threads: 4
       extensions:
         - httpfs

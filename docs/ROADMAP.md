@@ -10,10 +10,9 @@ Roadmap do projeto de portfólio de Data Lakehouse de criptomoedas. Cada fase s�
 - [x] Fase 4 - Transformação Silver
 - [x] Fase 5 - Modelagem Gold e Star Schema
 - [x] Fase 6 - Orquestração ponta a ponta
-- [ ] Fase 7 - Integração Databricks
+- [x] Fase 7 - Integração Databricks (Automação de upload preparada)
 - [ ] Fase 8 - Governança e otimização cloud
-- [ ] Fase 9 - Power BI
-- [ ] Fase 10 - Documentação e portfólio
+- [x] Fase 9 - Documentação e portfólio
 
 ## Fase 1 - Infraestrutura local
 
@@ -259,27 +258,7 @@ Aplicar práticas de governança, segurança e performance.
 - Consultas principais têm performance medida.
 - Custos e limitações da configuração estão documentados.
 
-## Fase 9 - Power BI
-
-### Objetivo
-
-Disponibilizar o modelo Gold para consumo analítico.
-
-### Entregáveis
-
-- Conexão DirectQuery ou modo aprovado para o destino.
-- Relacionamentos do modelo semântico.
-- Medidas de preço, volume e volatilidade.
-- Dashboard de evolução e comparação de criptoativos.
-- Validação dos números contra as Delta Tables.
-
-### Critério de conclusão
-
-- O relatório atualiza sem erro.
-- As métricas conferem com consultas de validação.
-- O usuário consegue analisar preço, volume e volatilidade por período e ativo.
-
-## Fase 10 - Documentação e portfólio
+## Fase 9 - Documentação e portfólio
 
 ### Objetivo
 
