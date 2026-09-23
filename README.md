@@ -1,54 +1,122 @@
-# Crypto Lakehouse 
+🇧🇷 Português | [🇺🇸 English](README_EN.md)
+
+<div align="center">
+
+# 🚀 Crypto Lakehouse
+
 ### *Data Lakehouse de Criptomoedas com Arquitetura Medalhão (Bronze, Silver, Gold)*
 
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
-[![dbt](https://img.shields.io/badge/dbt-core-1.8%2B-brightgreen.svg)](https://www.getdbt.com/)
+[![dbt](https://img.shields.io/badge/dbt--core-1.8%2B-brightgreen.svg)](https://www.getdbt.com/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-1.1%2B-orange.svg)](https://duckdb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](https://www.docker.com/)
 [![Apache Airflow](https://img.shields.io/badge/Airflow-2.10%2B-017CEE.svg)](https://airflow.apache.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Data Lakehouse de criptomoedas construído com Arquitetura Medalhão, processando dados de mercado de alta frequência de forma totalmente automatizada, limpa, testada e pronta para análises avançadas.**
+**Um Data Lakehouse de criptomoedas construído para coletar, processar, transformar e disponibilizar dados de mercado de forma automatizada, testável e estruturada para análises avançadas.**
+
+</div>
 
 ---
 
 ## 🌟 Principais Funcionalidades
 
-1. **Arquitetura Medalhão Completa (Bronze → Silver → Gold)**
-   - **Bronze**: Ingestão idempotente de dados brutos da API CoinGecko no MinIO (S3 compatível) com chaveamento determinístico
-   - **Silver**: Desaninhamento (flattening), tipagem estrita e armazenamento em Parquet via dbt + DuckDB
-   - **Gold**: Modelagem dimensional (Star Schema) com tabelas de fatos, dimensões e agregações de volatilidade diária
+### 1. 🥉 Arquitetura Medalhão — Bronze → Silver → Gold
 
-2. **Orquestração com Apache Airflow**
-   - DAGs para ingestão Bronze, pipeline Silver-Gold e upload para Databricks
-   - Retries configuráveis, timeouts, logs detalhados e controle de execução concorrente
-   - Interface web para monitoramento e disparo manual de pipelines
+O projeto implementa uma arquitetura de dados em camadas, separando ingestão, transformação e consumo analítico.
 
-3. **Transformação com dbt + DuckDB**
-   - Modelos SQL testados com validações de integridade (not_null, unique, relationships)
-   - Suporte nativo à leitura direta de S3 via extensão `httpfs` do DuckDB
-   - Materialização externa (Parquet) nas camadas Silver e Gold para máxima performance
+* **Bronze:** ingestão idempotente dos dados brutos da API CoinGecko no **MinIO**, utilizando armazenamento compatível com S3 e chaveamento determinístico.
+* **Silver:** desaninhamento (*flattening*), tipagem estrita e transformação dos dados para **Parquet** utilizando **dbt + DuckDB**.
+* **Gold:** modelagem dimensional em **Star Schema**, com tabelas fato, dimensões e agregações de volatilidade diária.
 
-4. **Integração Cloud com Databricks**
-   - Upload automático de Parquets Gold para Unity Catalog / Volumes
-   - Notebook PySpark para conversão eficiente em Delta Tables
-   - Preparado para ambientes de produção com governance e segurança
+Essa separação permite manter os dados brutos preservados enquanto as camadas seguintes são transformadas e reconstruídas de forma controlada.
 
-5. **Testes Automatizados Abrangentes**
-   - Testes unitários com mocks de S3 e HTTP usando `unittest`
-   - Testes dbt de qualidade de dados em cada camada
-   - Validação de idempotência e reprocessamento controlado
+### 2. ⚙️ Orquestração com Apache Airflow
+
+O pipeline é automatizado através do **Apache Airflow**.
+
+* DAGs para ingestão da camada Bronze.
+* Pipeline de transformação Silver → Gold.
+* Upload dos dados Gold para Databricks.
+* Retries configuráveis.
+* Timeouts.
+* Logs detalhados.
+* Controle de execução concorrente.
+* Monitoramento e disparo manual através da interface web do Airflow.
+
+### 3. 🧠 Transformação com dbt + DuckDB
+
+A transformação dos dados utiliza **dbt** e **DuckDB**, permitindo executar modelos SQL de maneira local e reproduzível.
+
+* Modelos SQL organizados por camada.
+* Testes de `not_null`, `unique` e `relationships`.
+* Leitura direta de dados armazenados em S3 através da extensão `httpfs` do DuckDB.
+* Materialização das camadas Silver e Gold em **Parquet**.
+* Possibilidade de executar e testar os modelos localmente antes da orquestração completa.
+
+### 4. ☁️ Integração Cloud com Databricks
+
+A camada Gold pode ser integrada a um ambiente cloud utilizando **Databricks**.
+
+* Upload automático dos arquivos Parquet Gold.
+* Integração com **Unity Catalog / Volumes**.
+* Notebook **PySpark** para conversão dos dados em Delta Tables.
+* Estrutura preparada para explorar conceitos de governança e segurança em ambientes cloud.
+
+### 5. 🧪 Testes Automatizados
+
+O projeto possui testes em diferentes níveis para validar tanto a aplicação quanto a qualidade dos dados.
+
+* Testes unitários em Python utilizando `unittest`.
+* Mocks para serviços S3 e HTTP.
+* Testes de qualidade utilizando dbt.
+* Validação de unicidade, não-nulidade e relacionamentos.
+* Testes de idempotência.
+* Validação de reprocessamento controlado.
 
 ---
 
-## 📌 Por que usar?
+## 📌 Por que usar este projeto?
 
-* **Stack Moderna e Popular**: Docker, Airflow, dbt, DuckDB, MinIO, Databricks - tecnologias amplamente adotadas no mercado
-* **Reprodutibilidade Total**: Ambiente completamente definido em `docker-compose.yml` e `.env.example`
-* **Qualidade de Dados Garantida**: Testes de unicidade, não-nulidade e relacionamentos em cada etapa do pipeline
-* **Escalabilidade Pronta para Produção**: Camada Gold estruturada para consumo direto em ferramentas de BI, ML ou data science
-* **Documentação Exemplar**: Arquitetura detalhada, roadmap com critérios de aceite, queries práticas e guia de execução
-* **Foco em Boas Práticas**: Código limpo, separação de preocupações, idempotência e tratamento de erros robusto
+O Crypto Lakehouse foi desenvolvido para demonstrar, em um único projeto, um fluxo de Engenharia de Dados próximo de um cenário real.
+
+* **Stack Moderna:** Docker, Apache Airflow, dbt, DuckDB, MinIO e Databricks.
+* **Reprodutibilidade:** ambiente definido através de Docker Compose e variáveis de ambiente.
+* **Qualidade de Dados:** validações automatizadas durante as transformações.
+* **Idempotência:** possibilidade de reprocessar dados sem gerar duplicações indevidas.
+* **Separação de Responsabilidades:** ingestão, transformação, armazenamento e consumo são organizados em camadas.
+* **Escalabilidade:** a camada Gold é estruturada para consumo posterior por ferramentas de BI, Machine Learning ou Data Science.
+* **Integração Local + Cloud:** o projeto permite trabalhar com um Data Lake local e posteriormente disponibilizar os dados no Databricks.
+* **Boas Práticas:** tratamento de erros, testes automatizados, organização por responsabilidades e pipelines reproduzíveis.
+
+---
+
+## 🏗️ Arquitetura
+
+O Crypto Lakehouse implementa um fluxo completo de Engenharia de Dados, desde a ingestão dos dados da CoinGecko até a disponibilização das informações na camada Gold e integração com Databricks.
+
+<div align="center">
+
+<img src="img/CoinGecko%20API%20Ingestion-2026-09-09-001131.png" alt="CoinGecko API Ingestion" width="900">
+
+<p><em>Fluxo de ingestão dos dados de mercado da CoinGecko para a camada Bronze.</em></p>
+
+</div>
+
+
+<div align="center">
+
+<img src="img/Untitled.png" alt="Crypto Lakehouse Architecture" width="900">
+
+<p><em>Arquitetura geral do Data Lakehouse e fluxo de processamento dos dados.</em></p>
+
+</div>
+
+A execução e as dependências do pipeline são orquestradas pelo **Apache Airflow**, enquanto o armazenamento local utiliza **MinIO** e as transformações SQL utilizam **dbt + DuckDB**.
+
+O fluxo principal pode ser resumido como:
+
+**CoinGecko API → Bronze → Silver → Gold → Databricks / Analytics**
 
 ---
 
@@ -56,71 +124,142 @@
 
 ### 1. Instalação das Dependências
 
-Recomendamos o uso do [`uv`](https://github.com/astral-sh/uv) pela velocidade, mas `pip` também funciona.
+Recomenda-se utilizar [`uv`](https://github.com/astral-sh/uv) pela velocidade de resolução e instalação das dependências, mas o projeto também pode ser executado utilizando `pip`.
 
 ```bash
 # Clone o repositório
+
 git clone https://github.com/seu-usuario/crypto-lakehouse.git
+
 cd crypto-lakehouse
 
-# Usando uv (recomendado):
-uv venv
-source .venv/bin/activate      # No Windows: .venv\Scripts\activate
-uv pip install -r requirements.txt
+# Usando uv
 
-# Ou usando pip tradicional:
+uv venv
+
+# Linux/macOS
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+
+uv pip install -r requirements.txt
+```
+
+Ou utilizando `pip`:
+
+```bash
 python -m venv .venv
-source .venv/bin/activate      # No Windows: .venv\Scripts\activate
+
+# Linux/macOS
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+
 pip install -r requirements.txt
 ```
 
-### 2. Subir a Infraestrutura Local
+### 2. Configurar as Variáveis de Ambiente
+
+Copie o arquivo de exemplo:
 
 ```bash
-# Copie o template de variáveis de ambiente
 cp .env.example .env
+```
 
-# Suba todos os containers (MinIO, PostgreSQL, Airflow, etc.)
+Configure as variáveis necessárias para o ambiente local e para os serviços utilizados pelo projeto.
+
+### 3. Subir a Infraestrutura
+
+Suba os containers utilizando Docker Compose:
+
+```bash
 docker compose up -d --build
 ```
 
-Após a subida, acesse as interfaces:
-- **Airflow Webserver**: http://localhost:8080 (usuário: `admin` / senha: `admin`)
-- **MinIO Console**: http://localhost:9001 (usuário: `minioadmin` / senha: `minioadmin`)
+A infraestrutura local inclui os serviços necessários para execução do pipeline, incluindo MinIO, PostgreSQL e Airflow.
 
-### 3. Executar o dbt Localmente (ideal para desenvolvimento e testes)
+Após a inicialização:
 
-```bash
-# Sincronize o ambiente de desenvolvimento
-uv sync
+* **Airflow:** `http://localhost:8080`
+* **MinIO Console:** `http://localhost:9001`
 
-# Configure o perfil local do dbt (copie para ~/.dbt ou use o diretório do projeto)
-mkdir -p ~/.dbt
-cp dbt/profiles.yml ~/.dbt/
+Credenciais padrão do ambiente local:
 
-# Valide a conexão e configuração
-uv run dbt debug --profiles-dir ~/.dbt
+```text
+Airflow
+Usuário: admin
+Senha: admin
 
-# Execute os modelos por camada
-uv run dbt run --select stg_bronze_market --profiles-dir ~/.dbt          # Staging (Bronze)
-uv run dbt run --select silver_market_prices --profiles-dir ~/.dbt      # Silver
-uv run dbt build --select +marts --profiles-dir ~/.dbt                  # Gold (Star Schema completo)
+MinIO
+Usuário: minioadmin
+Senha: minioadmin
 ```
 
-### 4. Executar Testes e Pipeline Completa
+> As credenciais acima são destinadas ao ambiente local de desenvolvimento.
+
+### 4. Executar o dbt Localmente
+
+Sincronize o ambiente:
 
 ```bash
-# Rode a suíte de testes unitários (valida ingestão e upload para Databricks)
-uv run python -m unittest tests.test_coingecko_bronze tests.test_databricks_upload -v
+uv sync
+```
 
-# Ou execute a pipeline completa via Airflow UI em http://localhost:8080
+Configure o perfil do dbt:
+
+```bash
+mkdir -p ~/.dbt
+
+cp dbt/profiles.yml ~/.dbt/
+```
+
+Valide a configuração:
+
+```bash
+uv run dbt debug --profiles-dir ~/.dbt
+```
+
+Execute os modelos individualmente:
+
+```bash
+# Staging / Bronze
+uv run dbt run \
+  --select stg_bronze_market \
+  --profiles-dir ~/.dbt
+
+# Silver
+uv run dbt run \
+  --select silver_market_prices \
+  --profiles-dir ~/.dbt
+
+# Gold
+uv run dbt build \
+  --select +marts \
+  --profiles-dir ~/.dbt
+```
+
+### 5. Executar os Testes
+
+```bash
+uv run python -m unittest \
+  tests.test_coingecko_bronze \
+  tests.test_databricks_upload \
+  -v
+```
+
+Ou execute o pipeline completo através da interface do Airflow:
+
+```text
+http://localhost:8080
 ```
 
 ---
 
-## 💻 Exemplo de Código Gerado (SQL dbt)
+## 💻 Exemplo de Transformação — dbt + DuckDB
 
-Abaixo está o modelo Silver (`silver_market_prices.sql`) que demonstra o processamento de dados brutos da CoinGecko:
+O modelo `silver_market_prices.sql` demonstra a transformação dos dados brutos da CoinGecko em uma estrutura tabular tipada e armazenada em Parquet.
 
 ```sql
 {{ config(
@@ -130,6 +269,7 @@ Abaixo está o modelo Silver (`silver_market_prices.sql`) que demonstra o proces
 ) }}
 
 with bronze_snapshots as (
+
     select
         source,
         endpoint,
@@ -137,10 +277,15 @@ with bronze_snapshots as (
         ingested_at::timestamp as ingested_at,
         vs_currency,
         data
+
     from {{ ref('stg_bronze_market') }}
+
 ),
+
 flattened_market as (
+
     select
+
         md5(
             concat(
                 reference_date::varchar,
@@ -150,31 +295,64 @@ flattened_market as (
                 vs_currency
             )
         ) as market_record_id,
+
         asset.key as crypto_id,
+
         reference_date,
         ingested_at,
         vs_currency,
-        try_cast(json_extract_string(asset.value, '$.usd') as decimal(38, 8)) as price_usd,
-        try_cast(json_extract_string(asset.value, '$.usd_market_cap') as decimal(38, 8)) as market_cap_usd,
-        try_cast(json_extract_string(asset.value, '$.usd_24h_vol') as decimal(38, 8)) as total_volume_usd,
-        try_cast(json_extract_string(asset.value, '$.usd_24h_change') as decimal(18, 8)) as price_change_24h,
-        try_cast(json_extract_string(asset.value, '$.last_updated_at') as bigint) as source_updated_at,
+
+        try_cast(
+            json_extract_string(asset.value, '$.usd')
+            as decimal(38, 8)
+        ) as price_usd,
+
+        try_cast(
+            json_extract_string(asset.value, '$.usd_market_cap')
+            as decimal(38, 8)
+        ) as market_cap_usd,
+
+        try_cast(
+            json_extract_string(asset.value, '$.usd_24h_vol')
+            as decimal(38, 8)
+        ) as total_volume_usd,
+
+        try_cast(
+            json_extract_string(asset.value, '$.usd_24h_change')
+            as decimal(18, 8)
+        ) as price_change_24h,
+
+        try_cast(
+            json_extract_string(asset.value, '$.last_updated_at')
+            as bigint
+        ) as source_updated_at,
+
         source,
         endpoint
+
     from bronze_snapshots,
+
     lateral json_each(to_json(data)) as asset
+
 )
 
 select *
+
 from flattened_market
+
 where crypto_id is not null
   and reference_date is not null
 ```
 
-### Consultas de Exemplo para Exploração
+O modelo realiza o flattening do JSON recebido da CoinGecko, gera um identificador determinístico para os registros e converte os principais indicadores de mercado para tipos numéricos adequados.
+
+---
+
+## 🔎 Consultas de Exemplo
+
+### Silver — Preço e Volume
 
 ```sql
--- Silver: Últimas observações de preço e volume
 SELECT
     crypto_id,
     reference_date,
@@ -182,23 +360,37 @@ SELECT
     market_cap_usd,
     total_volume_usd,
     price_change_24h
-FROM silver_market_prices
-ORDER BY reference_date DESC, ingested_at DESC
-LIMIT 10;
 
--- Gold: Série histórica de preços com símbolos legíveis
+FROM silver_market_prices
+
+ORDER BY reference_date DESC, ingested_at DESC
+
+LIMIT 10;
+```
+
+### Gold — Histórico de Preços
+
+```sql
 SELECT
     d.symbol,
     f.reference_date,
     f.price_usd,
     f.market_cap_usd,
     f.total_volume_usd
-FROM fact_precos_mercado f
-JOIN dim_cryptos d USING (crypto_id)
-ORDER BY f.reference_date DESC
-LIMIT 20;
 
--- Gold: Análise de volatilidade e retorno diário
+FROM fact_precos_mercado f
+
+JOIN dim_cryptos d
+    USING (crypto_id)
+
+ORDER BY f.reference_date DESC
+
+LIMIT 20;
+```
+
+### Gold — Volatilidade e Retorno Diário
+
+```sql
 SELECT
     d.symbol,
     v.reference_date,
@@ -206,46 +398,47 @@ SELECT
     v.closing_price_usd,
     v.daily_return,
     v.volatility
+
 FROM agg_volatilidade_diaria v
-JOIN dim_cryptos d USING (crypto_id)
+
+JOIN dim_cryptos d
+    USING (crypto_id)
+
 ORDER BY v.reference_date DESC, v.volatility DESC;
 ```
 
 ---
 
-## 🛠️ Conectores & Tecnologias Suportadas
+## 🛠️ Tecnologias Utilizadas
 
-| Categoria | Tecnologia | Detalhes |
-|-----------|------------|----------|
-| **Orquestração** | Apache Airflow 2.10+ | DAGs com trigger rules, pools e concurrency control |
-| **Storage (S3 Local)** | MinIO | API S3 compatível, buckets separados por camada (Bronze/Silver/Gold) |
-| **Transformação** | dbt-core + dbt-duckdb + DuckDB 1.1+ | Modelos SQL, testes de integridade, materialização Parquet |
-| **Lakehouse Cloud** | Databricks Unity Catalog | Volumes gerenciados, Delta Tables, notebooks PySpark |
-| **Ingestão de Dados** | Python + requests | Cliente CoinGecko com retry exponencial e tratamento de rate limits |
-| **Orquestração de Containers** | Docker Compose | PostgreSQL (metadata Airflow), MinIO, Airflow (webserver/scheduler/init) |
-| **Gerenciamento de Pacotes** | uv / pip | Ambientes isolados, resolução rápida de dependências |
-| **Análise Adicional** | Pandas/PyArrow (opcional) | Para exploração interativa em notebooks Jupyter |
+| Categoria                    | Tecnologia               | Utilização                                                     |
+| ---------------------------- | ------------------------ | -------------------------------------------------------------- |
+| **Orquestração**             | Apache Airflow 2.10+     | DAGs, retries, trigger rules, pools e controle de concorrência |
+| **Storage**                  | MinIO                    | Object Storage compatível com S3                               |
+| **Transformação**            | dbt-core + dbt-duckdb    | Modelagem SQL e testes de qualidade                            |
+| **Query Engine**             | DuckDB 1.1+              | Processamento analítico e leitura de Parquet/S3                |
+| **Lakehouse Cloud**          | Databricks Unity Catalog | Volumes, Delta Tables e notebooks PySpark                      |
+| **Ingestão**                 | Python + requests        | Consumo da API CoinGecko                                       |
+| **Containers**               | Docker Compose           | Execução da infraestrutura local                               |
+| **Gerenciamento de Pacotes** | uv / pip                 | Ambientes e dependências Python                                |
+| **Análise**                  | Pandas / PyArrow         | Exploração adicional e notebooks                               |
 
 ---
 
-## 🧪 Executando os Testes Automatizados
+## 🧪 Testes Automatizados
 
-### Testes de Unidade (Python)
-Valida os componentes de ingestão CoinGecko e upload para Databricks com mocks de S3 e HTTP:
 
-```bash
-uv run python -m unittest tests.test_coingecko_bronze tests.test_databricks_upload -v
-```
+### Testes de Qualidade com dbt
 
-### Testes dbt (Qualidade de Dados)
-Verifica integridade, unicidade e relacionamentos em todos os modelos:
+Validação de integridade, unicidade e relacionamentos dos modelos:
 
 ```bash
 uv run dbt test --profiles-dir dbt/
 ```
 
 ### Build Completo
-Executa todos os modelos e testes em sequência:
+
+Executa os modelos e os testes em sequência:
 
 ```bash
 uv run dbt build --profiles-dir dbt/
@@ -253,16 +446,13 @@ uv run dbt build --profiles-dir dbt/
 
 ---
 
-## 👨‍💻 Autor
-
 **Samuel Santos**
 
-Engenheiro de Dados apaixonado por arquiteturas modernas de dados, automação e boas práticas de engenharia de software. Este projeto foi desenvolvido como portfólio técnico e exercício de estudo, explorando conceitos avançados de:
+Este projeto foi desenvolvido como **portfólio técnico e projeto de estudo**, com foco em Engenharia de Dados, arquiteturas modernas de dados, automação e boas práticas.
 
-- Arquitetura Medalhão e Lakehouses
-- ELT com dbt e ferramentas open-source
-- Orquestração de workflows com Apache Airflow
-- Integração entre data lakes locais e plataformas cloud (Databricks)
-- Testabilidade e qualidade de dados em pipelines de engenharia
+---
 
-> 🇧🇷 Português | [🇺🇸 English](README_EN.md)
+
+---
+
+🇧🇷 Português | [🇺🇸 English](README_EN.md)
